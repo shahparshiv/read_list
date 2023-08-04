@@ -1,0 +1,15 @@
+{
+    "dependencies": {
+        "axios": "latest",
+        "body-parser": "^1.20.2",
+        "cors": "latest",
+        "express": "latest",
+        "nodemon": "^3.0.1",
+        "redis": "latest",
+        "pg":"latest"
+    },
+    "scripts": {
+        "dev": "nodemon",
+        "start": "node index.js"
+    }
+}

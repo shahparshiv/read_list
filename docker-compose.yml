@@ -1,0 +1,39 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    # network_mode: host
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  api:
+    build: 
+      context: ./server
+    environment:
+      - REDIS_HOST='redis'
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    depends_on:
+      - redis
+      - postgres
+  client:
+    build:
+      context: ./frontend
+    environment:
+      - WDS_SOCKET_PORT=0
+    # networks: 
+      # - host
+  nginx:
+    restart: always
+    build: 
+      context: ./nginx
+    depends_on:
+      - api
+      - client
+    ports:
+      - "3000:80"
